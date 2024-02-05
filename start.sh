@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Start Apache in the foreground
-/usr/sbin/apache2ctl -D FOREGROUND &
-
 # Start RethinkDB
 rethinkdb --directory db &
 
@@ -11,3 +8,6 @@ npm run setup_db &
 
 # Start the application
 node . &
+
+# Start Apache in the foreground
+/usr/sbin/apache2ctl -D FOREGROUND 
