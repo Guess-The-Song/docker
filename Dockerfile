@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 #NVM / NPM / NODE SETUP#############################################
 
 ENV NVM_VERSION v0.39.7
-ENV NODE_VERSION v12.0.0
+ENV NODE_VERSION v16.0.0
 ENV NVM_DIR /root/.nvm
 RUN mkdir $NVM_DIR
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.7/install.sh | bash
