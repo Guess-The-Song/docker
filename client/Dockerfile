@@ -31,16 +31,18 @@ RUN echo "source $NVM_DIR/nvm.sh && \
 RUN npm install -g npm@latest
 
 #FRONTEND SETUP#####################################################
+RUN mkdir -p /app/client /app/script
 
-RUN mkdir -p /app/client
-
-WORKDIR /app/client
+WORKDIR /app/client 
 RUN git clone https://github.com/Guess-The-Song/client.git .
 RUN rm -rf /app/client/.output
 RUN rm -rf /app/client/node_modules
+RUN npm i nuxt@3.10.1
 RUN npm i @nuxt/ui
 RUN npm ci
-RUN npx nuxt build
+RUN rm -rf /app/client/assets/config.json
 
 #STARTUP############################################################
-CMD [ "node", "/app/client/.output/server/index.mjs" ]
+COPY start.sh /app/script/start.sh
+RUN chmod +x /app/script/start.sh
+CMD ["/app/script/start.sh"]
