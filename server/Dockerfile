@@ -11,14 +11,13 @@ RUN apt-get update && apt-get install -y \
     git \
     wget \
     sudo \
-    apache2 \
     lsb-release \
     build-essential
 
 #NVM / NPM / NODE SETUP#############################################
 
 ENV NVM_VERSION v0.39.7
-ENV NODE_VERSION v16.0.0
+ENV NODE_VERSION v20.11.0
 ENV NVM_DIR /root/.nvm
 RUN mkdir $NVM_DIR
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.7/install.sh | bash
@@ -31,6 +30,8 @@ RUN echo "source $NVM_DIR/nvm.sh && \
     nvm alias default $NODE_VERSION && \
     nvm use default" | bash
 
+RUN npm install -g npm@latest
+
 #RETHINKDB INSTALL##################################################
 
 RUN wget -qO- https://download.rethinkdb.com/repository/raw/pubkey.gpg | \
@@ -42,15 +43,8 @@ RUN apt-get update && apt-get install -y rethinkdb
 
 #FRONTEND SETUP#####################################################
 
-RUN mkdir -p /app/client /app/server
+RUN mkdir -p /app/server /app/script
 
-WORKDIR /app/client
-RUN git clone https://github.com/Guess-The-Song/client.git .
-RUN cp -r /app/client/.output/public/* /var/www/html/
-
-
-WORKDIR /app
-RUN rm -rf /app/client
 
 #BACKEND SETUP######################################################
 
@@ -61,6 +55,6 @@ RUN mkdir db
 
 
 #STARTUP SCRIPT#####################################################
-COPY start.sh /app/server/start.sh
-RUN chmod +x /app/server/start.sh
-CMD ["/app/server/start.sh"]
+COPY start.sh /app/script/start.sh
+RUN chmod +x /app/script/start.sh
+CMD ["/app/script/start.sh"]

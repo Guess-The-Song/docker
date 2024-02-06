@@ -7,4 +7,5 @@ sleep 5
 npm run setup_db &
 sleep 5
 # Start the application
+echo "{"secret": "${CLIENT_SECRET}", "id": "${CLIENT_ID}", "redirectUri": "${REDIRECT_URI}"}" > /app/server/config/spotify.json
 node . &
